@@ -1,11 +1,11 @@
 import { NextRequest, NextResponse } from "next/server";
 import { PutObjectCommand } from "@aws-sdk/client-s3";
 import { s3Client } from "@/app/s3Client";
+import { revalidatePath, revalidateTag } from "next/cache";
 
 export async function POST(request: NextRequest) {
   const data = await request.formData();
   const files = data.getAll("files") as File[];
-  console.log(files);
   if (files.length === 0) {
     return NextResponse.json(
       { status: "error", message: "No file uploaded" },
@@ -17,11 +17,8 @@ export async function POST(request: NextRequest) {
     const uploadResults = files.map(async (file) => {
       const fileBuffer = await file.arrayBuffer();
       const buffer = Buffer.from(fileBuffer);
-      // Remove o . depois do nome do arquivo
       const name = file.name.replace(/\..*/, "");
       const extension = file.type.replace(/^.*\//, "");
-      console.log(`${name}-${Date.now()}.${extension}`);
-
       const uploadParams = {
         Bucket: "my-drive-aplication",
         Key: `${name}-${Date.now()}.${extension}`,
@@ -33,6 +30,8 @@ export async function POST(request: NextRequest) {
       return { fileName: file.name, status: "uploaded" };
     });
     const results = await Promise.all(uploadResults);
+    revalidatePath("/");
+    revalidateTag("files");
     return NextResponse.json(
       {
         status: "ok",

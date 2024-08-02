@@ -7,6 +7,7 @@ import {
   useDropzone,
 } from "react-dropzone";
 import ListFilesUpload from "./list-files-upload";
+import { revalidatePath } from "next/cache";
 
 export default function DropZone() {
   const [files, setFiles] = React.useState<File[]>([]);
@@ -30,13 +31,29 @@ export default function DropZone() {
     minSize: 1,
     multiple: true,
     onDropRejected,
-    noClick: true,
-    noKeyboard: true,
   });
 
+  const handleSubmit = async (formData: FormData) => {
+    files.map((file) => {
+      formData.append("files", file);
+    });
+    const response = await fetch("/api/upload", {
+      method: "POST",
+      body: formData,
+      next: { tags: ["files"] },
+    });
+    if (response.ok) {
+      setFiles([]);
+      return response;
+    }
+    return new Error("Failed to upload files");
+  };
   return (
     <div className="w-full p-24">
-      <div className="flex flex-col justify-center gap-4 w-[345px] m-auto text-center">
+      <form
+        action={handleSubmit}
+        className="flex flex-col justify-center gap-4 w-[345px] m-auto text-center"
+      >
         <div
           {...getRootProps()}
           className="border-dashed border-2 border-black p-4 cursor-pointer rounded-xl"
@@ -53,7 +70,8 @@ export default function DropZone() {
             type="file"
           ></input>
         </div>
-      </div>
+        <button type="submit">Enviar</button>
+      </form>
       {fileErrors &&
         fileErrors.map((error, index) => <p key={index}> {error.message} </p>)}
       <ListFilesUpload files={files} setFiles={setFiles} />

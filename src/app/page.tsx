@@ -1,3 +1,4 @@
+import { Suspense } from "react";
 import DropZone from "./components/drop-zone/drop-zone";
 import FilesList from "./components/files-list";
 export default function Home() {
