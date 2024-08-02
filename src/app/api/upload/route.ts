@@ -17,11 +17,14 @@ export async function POST(request: NextRequest) {
     const uploadResults = files.map(async (file) => {
       const fileBuffer = await file.arrayBuffer();
       const buffer = Buffer.from(fileBuffer);
-      const fileName = file.name;
+      // Remove o . depois do nome do arquivo
+      const name = file.name.replace(/\..*/, "");
+      const extension = file.type.replace(/^.*\//, "");
+      console.log(`${name}-${Date.now()}.${extension}`);
 
       const uploadParams = {
         Bucket: "my-drive-aplication",
-        Key: `${fileName}-${Date.now()}`,
+        Key: `${name}-${Date.now()}.${extension}`,
         Body: buffer,
         ContentType: file.type,
       };
