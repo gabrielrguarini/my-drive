@@ -1,7 +1,7 @@
 import Image from "next/image";
 import { Trash2Icon } from "lucide-react";
 import React from "react";
-import PdfIcon from "./pdf-icon";
+import PdfIcon2 from "./pdf-icon2";
 
 export default function ListFilesUpload({
   files,
@@ -23,7 +23,7 @@ export default function ListFilesUpload({
                 alt=""
               />
             ) : (
-              <PdfIcon />
+              <PdfIcon2 />
             )}
             <div className="absolute text-transparent hover:bg-red-500/70 hover:text-black w-full h-full transition-all duration-300">
               <button
