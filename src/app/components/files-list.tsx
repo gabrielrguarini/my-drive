@@ -1,9 +1,5 @@
 "use server";
 import type { AllFilesResponse } from "@/types/types";
-import Image from "next/image";
-import PdfIcon2 from "@/app/components/drop-zone/pdf-icon2";
-import { Trash2Icon } from "lucide-react";
-import { handleDelete } from "../action";
 import FileItem from "./file-item";
 
 const getFiles = async () => {

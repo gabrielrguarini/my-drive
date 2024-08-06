@@ -11,10 +11,10 @@ export default function ListFilesUpload({
   setFiles: React.Dispatch<React.SetStateAction<File[]>>;
 }) {
   return (
-    <ul className="list-none flex flex-wrap gap-4">
+    <ul className="flex list-none flex-wrap gap-4">
       {files.map((file, index) => (
-        <div key={index} className="w-[100px] h-[140px] overflow-hidden">
-          <li className="flex flex-col items-center justify-center relative  w-[100px] h-[100px] border-4 border-white rounded-md">
+        <div key={index} className="h-[140px] w-[100px] overflow-hidden">
+          <li className="relative flex h-[100px] w-[100px] flex-col items-center justify-center rounded-md border-4 border-white">
             {file.type.includes("image") ? (
               <Image
                 fill
@@ -25,9 +25,9 @@ export default function ListFilesUpload({
             ) : (
               <PdfIcon2 />
             )}
-            <div className="absolute text-transparent hover:bg-red-500/70 hover:text-black w-full h-full transition-all duration-300">
+            <div className="absolute h-full w-full text-transparent transition-all duration-300 hover:bg-red-500/70 hover:text-black">
               <button
-                className="w-full h-full flex justify-center items-center"
+                className="flex h-full w-full items-center justify-center"
                 onClick={() => {
                   const newFiles = [...files];
                   newFiles.splice(index, 1);

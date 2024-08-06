@@ -17,10 +17,10 @@ export default function DropZone() {
   }, []);
   const onDropRejected = (
     fileRejections: FileRejection[],
-    event: DropEvent
+    event: DropEvent,
   ) => {
     const errors = fileRejections.map(
-      (fileRejection) => fileRejection.errors[0]
+      (fileRejection) => fileRejection.errors[0],
     );
     setFileErrors(errors);
   };
@@ -52,11 +52,11 @@ export default function DropZone() {
     <div className="w-full p-24">
       <form
         action={handleSubmit}
-        className="flex flex-col justify-center gap-4 w-[345px] m-auto text-center"
+        className="m-auto flex w-[345px] flex-col justify-center gap-4 text-center"
       >
         <div
           {...getRootProps()}
-          className="border-dashed border-2 border-black p-4 cursor-pointer rounded-xl"
+          className="cursor-pointer rounded-xl border-2 border-dashed border-black p-4"
         >
           <label className="cursor-pointer">
             {isDragActive

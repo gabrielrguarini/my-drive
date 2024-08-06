@@ -12,7 +12,7 @@ const handleDelete = async (filename: string) => {
     {
       method: "DELETE",
       next: { revalidate: 60, tags: ["files"] },
-    }
+    },
   );
   console.log(deleteFile);
   return deleteFile;
@@ -27,7 +27,7 @@ export default function FileItem({ url }: { url: UrlType }) {
           <p>{url.fileName}</p>
         </div>
       ) : (
-        <div className="flex flex-col items-center justify-center relative  w-[100px] h-[100px] border-4 border-white rounded-md">
+        <div className="relative flex h-[100px] w-[100px] flex-col items-center justify-center rounded-md border-4 border-white">
           <Image
             key={url.fileName}
             src={url.url}
@@ -35,10 +35,10 @@ export default function FileItem({ url }: { url: UrlType }) {
             style={{ objectFit: "cover" }}
             alt={url.fileName}
           />
-          <div className="absolute text-transparent hover:bg-red-500/70 hover:text-black w-full h-full transition-all duration-300">
+          <div className="absolute h-full w-full text-transparent transition-all duration-300 hover:bg-red-500/70 hover:text-black">
             <button
               onClick={() => handleDelete(url.fileName)}
-              className="w-full h-full flex justify-center items-center"
+              className="flex h-full w-full items-center justify-center"
             >
               <Trash2Icon size={40} />
             </button>
